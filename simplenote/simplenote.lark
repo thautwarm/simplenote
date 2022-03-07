@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+note : NOTE -> note_0
+     | note _I__K__I_ -> note_1
+     | note _I__I__I_ -> note_2
+     | note _I__U__I_ -> note_3
+     | note _I__T__I_ -> note_4
+     | note _I___I_ -> note_5
+     | _I_0_I_ -> note_6
+group : _I__O__I_ elements _I__P__I_ -> group_0
+      | note -> group_1
+elements : group -> elements_0
+         | elements group -> elements_1
+top : note -> top_0
+    | _I__O__I_ elements _I__P__I_ -> top_1
+tops : top -> tops_0
+     | tops top -> tops_1
+start : tops -> start_0
+%declare _I__O__I_ _I__P__I_ _I__T__I_ _I__U__I_ _I_0_I_ _I__I__I_ _I__K__I_ _I___I_ NOTE UNKNOWN

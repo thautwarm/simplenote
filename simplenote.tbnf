@@ -1,0 +1,42 @@
+extern var parseInt : token -> int
+extern var append: <'a>(list<'a>, 'a) -> list<'a>
+
+type Note
+case Raw: int -> Note
+case Up7: Note -> Note
+case Down7: Note -> Note
+case Dotted: Note -> Note
+case Dashed: Note -> Note
+case Halfed: Note -> Note
+case Empty : () -> Note
+
+type Group
+case Single: Note -> Group
+case Multi: list<Group> -> Group
+
+
+
+note : <NOTE>   { Raw(parseInt($1)) }
+     | note ">" { Up7($1) }
+     | note "<" { Down7($1) }
+     | note "." { Dotted($1) }
+     | note "-" { Dashed($1) }
+     | note "_" { Halfed($1) }
+     | "0"      { Empty() }
+
+
+group : "(" elements ")" { Multi($2) }
+      | note { Single($1) }
+
+elements : group { [$1] }
+         | elements group { append($1, $2) }
+
+NOTE = [1-7];
+
+top : note { Multi([Single($1)]) }
+    | "(" elements ")" { Multi($2) }
+
+tops : top { [$1] }
+     | tops top { append($1, $2) }
+
+start : tops { $1 }
